@@ -34,7 +34,7 @@ files:
 
 ## send_text
 
-> 状态：工具已实现。段间停顿、主动外联和各渠道 `conversation` 的具体格式仍待定。
+> 状态：工具已实现。QQ、飞书、KOOK 的 `conversation` 格式由各自的渠道插件定义。段间停顿和主动外联仍待定。
 
 `send_text` 是主意识把文字发到外部渠道的工具。渠道是 QQ、飞书、Kook，以及以后接上的同类入口。
 
@@ -186,8 +186,7 @@ output: {
 
 - 段间停顿的时长与归属：`send_text` 统一负责，还是渠道插件各自决定；
 - 主动外联：给没有入口消息现场的会话发信，要不要先经过显式仲裁（Elysium 里是 `nucleus_proactive_query` 与 `nucleus_proactive_command` 两件套）；
-- 渠道插件注册接口的形状（Cordis service 还是事件）；
-- `conversation` 标识在各渠道的具体格式。
+- 渠道插件注册接口的形状（Cordis service 还是事件）。QQ、飞书、KOOK 的会话格式分别由 `qq-napcat`、`feishu-app`、`kook-bot` 定义。
 
 ## 终端入口
 
