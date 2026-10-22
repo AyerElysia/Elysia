@@ -11,9 +11,16 @@ import type { Context } from '@deepseek-ai/cordis'
 import z from '@deepseek-ai/schemastery'
 import { isAbsolute, resolve } from 'node:path'
 import type {} from '@deepseek-ai/dsh-system-prompt'
+import type {} from '@deepseek-ai/dsh-tools'
 import { StandingPromptError, assertStandingFileName, loadStandingPrompt } from './load.ts'
+import { OutboundText } from './outbound.ts'
+import { defineSendTextTool } from './send-text.ts'
 
 export { StandingPromptError, loadStandingPrompt }
+export { OutboundDeliveryUnknown, OutboundText } from './outbound.ts'
+export type { OutboundDelivery, OutboundReceipt, OutboundSend } from './outbound.ts'
+export { defineSendTextTool, deliverSendText, splitOutboundText } from './send-text.ts'
+export type { SendTextArgs, SendTextResult, SentSegment } from './send-text.ts'
 
 /** Section name restored as the whole system prompt. */
 export const STANDING_PROMPT_SECTION = 'elysia:standing-prompts'
@@ -21,7 +28,7 @@ export const STANDING_PROMPT_SECTION = 'elysia:standing-prompts'
 /** Cordis plugin name. */
 export const name = 'elysia-conscious-mind'
 
-/** The prompt registry this prefix contributes to. */
+/** Prompt registry for the prefix. The send_text tool attaches when `tools` is present. */
 export const inject = ['systemPrompt']
 
 /** Plugin config: one directory and the file names to read, in order. */
@@ -56,6 +63,7 @@ export function apply(ctx: Context, config: Config): void {
     }
   }
   const baseDir = isAbsolute(config.baseDir) ? config.baseDir : resolve(process.cwd(), config.baseDir)
+  const outbound = new OutboundText(ctx)
   ctx.effect(() => ctx.systemPrompt.section({
     name: STANDING_PROMPT_SECTION,
     order: 0,
@@ -63,4 +71,12 @@ export function apply(ctx: Context, config: Config): void {
     interpolate: false,
     text: () => loadStandingPrompt(baseDir, config.files, required),
   }), 'elysia-conscious-mind.section()')
+  const tools = ctx.reflect.get('tools', false) as { register(definition: ReturnType<typeof defineSendTextTool>): () => void } | undefined
+  if (tools !== undefined) {
+    ctx.effect(() => tools.register(defineSendTextTool(outbound)), 'elysia-conscious-mind.send_text()')
+  } else {
+    ctx.inject(['tools'], scoped => {
+      scoped.effect(() => scoped.tools.register(defineSendTextTool(outbound)), 'elysia-conscious-mind.send_text()')
+    })
+  }
 }
