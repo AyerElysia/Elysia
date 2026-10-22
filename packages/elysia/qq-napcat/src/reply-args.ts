@@ -47,3 +47,19 @@ export function readToolArguments(message: ModelToolMessage | undefined): ReadTo
 export function outboundContent(args: Record<string, unknown>): string {
   return typeof args.content === 'string' ? args.content : ''
 }
+
+const TOOL_MARKUP = /string="true"|<\/?parameter\b|<tool_call\b|<invoke\b/iu
+
+/**
+ * Keep only a reply a person should see. Tool-parameter debris and a lone
+ * ASCII letter are not a reply.
+ * @param content - the content field from a tool call.
+ * @returns the trimmed words, or undefined when they must not be sent.
+ */
+export function spokenReply(content: string): string | undefined {
+  const text = content.trim()
+  if (text.length === 0) return undefined
+  if (TOOL_MARKUP.test(text)) return undefined
+  if (/^[A-Za-z]$/u.test(text)) return undefined
+  return text
+}

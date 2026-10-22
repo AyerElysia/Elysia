@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { outboundContent, readToolArguments } from '../src/reply-args.ts'
+import { outboundContent, readToolArguments, spokenReply } from '../src/reply-args.ts'
 
 describe('send_text argument reading', () => {
   it('reads content from a JSON string', () => {
@@ -14,6 +14,12 @@ describe('send_text argument reading', () => {
       tool_calls: [{ function: { arguments: { content: '在呢' } } }],
     })
     expect(outboundContent(read.args)).toBe('在呢')
+  })
+
+  it('rejects a parameter tag and a lone letter', () => {
+    expect(spokenReply('t" string="true">在呢在呢♪')).toBeUndefined()
+    expect(spokenReply('t')).toBeUndefined()
+    expect(spokenReply('在呢')).toBe('在呢')
   })
 
   it('keeps a missing or blank content empty instead of inventing one', () => {

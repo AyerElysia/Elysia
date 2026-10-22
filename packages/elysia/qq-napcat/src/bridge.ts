@@ -13,12 +13,11 @@ import type { SendTextArgs, SendTextResult } from '../../conscious-mind/src/send
 import { loadElysiumNapcatConfig } from './config.ts'
 import type { QqInboundText } from './inbound.ts'
 import { NapcatLink } from './link.ts'
-import { outboundContent, readToolArguments, type ModelToolMessage } from './reply-args.ts'
+import { outboundContent, readToolArguments, spokenReply, type ModelToolMessage } from './reply-args.ts'
 
 const PROMPTS = '/home/ayerelysia/Elysia/Data/standing-prompts'
 const MODELS_TOML = resolve(dirname(fileURLToPath(import.meta.url)), '../../../../../config/models.toml')
 const FILES = ['SOUL.md', 'USER.md', 'MEMORY.md', 'EXISTENCE.md', 'TOOLS.md']
-const AYER = '2665253325'
 
 interface ChatConfig {
   baseURL: string
@@ -40,7 +39,7 @@ function loadChatConfig(): ChatConfig {
   return { baseURL: baseURL.replace(/\/+$/, ''), apiKey, model: 'claude-opus-4-6' }
 }
 
-const RETRY_EMPTY_CONTENT = '上一次 send_text 的 content 是空的，对方一个字都看不到。请重新调用 send_text。content 必须是发给对方的非空文字；如果上一句已经接过这声呼唤，就换一句短的、具体的话，不要留空，也不要再重复「在呢」。'
+const RETRY_BAD_CONTENT = '上一次 send_text 的 content 不能发给对方。content 只能是一句给对方看的话，不要写参数名、引号、string="true" 或 XML 标签。请重新调用 send_text。'
 
 interface Completion {
   message: ModelToolMessage | undefined
@@ -96,18 +95,23 @@ function toSendArgs(completion: Completion, inbound: QqInboundText): SendTextArg
   }
 }
 
-function logEmptyContent(completion: Completion): void {
+function logRejected(completion: Completion): void {
   const assistant = typeof completion.message?.content === 'string' ? completion.message.content : ''
-  process.stderr.write(`send_text 正文为空 raw=${completion.raw || '(无参数)'} assistant=${assistant || '(无)'}\n`)
+  process.stderr.write(`send_text 正文拒绝 content=${JSON.stringify(outboundContent(completion.args))} raw=${completion.raw || '(无参数)'} assistant=${assistant || '(无)'}\n`)
 }
 
-async function modelReply(config: ChatConfig, system: string, inbound: QqInboundText, toolParameters: unknown): Promise<SendTextArgs> {
+async function modelReply(config: ChatConfig, system: string, inbound: QqInboundText, toolParameters: unknown): Promise<SendTextArgs | undefined> {
   const first = await complete(config, system, inbound, toolParameters)
-  if (outboundContent(first.args).trim().length > 0) return toSendArgs(first, inbound)
-  logEmptyContent(first)
-  const second = await complete(config, system, inbound, toolParameters, RETRY_EMPTY_CONTENT)
-  if (outboundContent(second.args).trim().length === 0) logEmptyContent(second)
-  return toSendArgs(second, inbound)
+  const firstSpoken = spokenReply(outboundContent(first.args))
+  if (firstSpoken !== undefined) return { ...toSendArgs(first, inbound), content: firstSpoken }
+  logRejected(first)
+  const second = await complete(config, system, inbound, toolParameters, RETRY_BAD_CONTENT)
+  const secondSpoken = spokenReply(outboundContent(second.args))
+  if (secondSpoken === undefined) {
+    logRejected(second)
+    return undefined
+  }
+  return { ...toSendArgs(second, inbound), content: secondSpoken }
 }
 
 const port = Number(process.argv[2] ?? '8097')
@@ -127,6 +131,10 @@ async function handle(message: QqInboundText): Promise<void> {
   process.stderr.write(`收到 ${message.conversation} ${message.text}\n`)
   const system = renderPrompt(await ctx.systemPrompt.assemble())
   const sendArgs = await modelReply(chat, system, message, tool.parameters)
+  if (sendArgs === undefined) {
+    process.stderr.write('回复未发送\n')
+    return
+  }
   const result: SendTextResult = await ctx.outboundText.sender('qq') === undefined
     ? { sent: [], error: 'qq sender missing' }
     : await tool.execute(sendArgs, { signal: new AbortController().signal } as never)
@@ -145,6 +153,4 @@ await link.start()
 process.stderr.write(`新架构在听 127.0.0.1:${port}\n`)
 await link.waitForConnection(45_000)
 process.stderr.write('NapCat 已连接\n')
-const missed = await link.session.latestPrivateText(AYER)
-if (missed !== undefined) enqueue(missed)
 await new Promise(() => {})
