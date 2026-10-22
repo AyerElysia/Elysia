@@ -1,0 +1,26 @@
+import { describe, expect, it } from 'vitest'
+import { outboundContent, readToolArguments } from '../src/reply-args.ts'
+
+describe('send_text argument reading', () => {
+  it('reads content from a JSON string', () => {
+    const read = readToolArguments({
+      tool_calls: [{ function: { arguments: JSON.stringify({ content: '在呢', thought: '接住' }) } }],
+    })
+    expect(outboundContent(read.args)).toBe('在呢')
+  })
+
+  it('reads content when the provider already decoded the arguments', () => {
+    const read = readToolArguments({
+      tool_calls: [{ function: { arguments: { content: '在呢' } } }],
+    })
+    expect(outboundContent(read.args)).toBe('在呢')
+  })
+
+  it('keeps a missing or blank content empty instead of inventing one', () => {
+    expect(outboundContent(readToolArguments(undefined).args)).toBe('')
+    expect(outboundContent(readToolArguments({ tool_calls: [{ function: { arguments: '{}' } }] }).args)).toBe('')
+    expect(outboundContent(readToolArguments({
+      tool_calls: [{ function: { arguments: JSON.stringify({ content: '  \n', thought: '不说' }) } }],
+    }).args).trim()).toBe('')
+  })
+})

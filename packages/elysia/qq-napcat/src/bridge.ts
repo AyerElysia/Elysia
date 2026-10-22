@@ -13,6 +13,7 @@ import type { SendTextArgs, SendTextResult } from '../../conscious-mind/src/send
 import { loadElysiumNapcatConfig } from './config.ts'
 import type { QqInboundText } from './inbound.ts'
 import { NapcatLink } from './link.ts'
+import { outboundContent, readToolArguments, type ModelToolMessage } from './reply-args.ts'
 
 const PROMPTS = '/home/ayerelysia/Elysia/Data/standing-prompts'
 const MODELS_TOML = resolve(dirname(fileURLToPath(import.meta.url)), '../../../../../config/models.toml')
@@ -39,25 +40,35 @@ function loadChatConfig(): ChatConfig {
   return { baseURL: baseURL.replace(/\/+$/, ''), apiKey, model: 'claude-opus-4-6' }
 }
 
-async function modelReply(config: ChatConfig, system: string, inbound: QqInboundText, toolParameters: unknown): Promise<SendTextArgs> {
+const RETRY_EMPTY_CONTENT = '上一次 send_text 的 content 是空的，对方一个字都看不到。请重新调用 send_text。content 必须是发给对方的非空文字；如果上一句已经接过这声呼唤，就换一句短的、具体的话，不要留空，也不要再重复「在呢」。'
+
+interface Completion {
+  message: ModelToolMessage | undefined
+  args: Record<string, unknown>
+  raw: string
+}
+
+async function complete(config: ChatConfig, system: string, inbound: QqInboundText, toolParameters: unknown, correction?: string): Promise<Completion> {
+  const messages = [
+    { role: 'system', content: system },
+    {
+      role: 'user',
+      content: `渠道 qq\n会话 ${inbound.conversation}\n${inbound.senderName || inbound.senderId}：${inbound.text}\n用 send_text 回到这一个会话。content 必须是对方能看见的非空文字。`,
+    },
+  ]
+  if (correction !== undefined) messages.push({ role: 'user', content: correction })
   const response = await fetch(`${config.baseURL}/chat/completions`, {
     method: 'POST',
     headers: { authorization: `Bearer ${config.apiKey}`, 'content-type': 'application/json' },
     body: JSON.stringify({
       model: config.model,
       temperature: 0.8,
-      messages: [
-        { role: 'system', content: system },
-        {
-          role: 'user',
-          content: `渠道 qq\n会话 ${inbound.conversation}\n${inbound.senderName || inbound.senderId}：${inbound.text}\n用 send_text 回到这一个会话。`,
-        },
-      ],
+      messages,
       tools: [{
         type: 'function',
         function: {
           name: 'send_text',
-          description: '把文字发到外部渠道。content 里的换行会拆成多条消息。thought 必须非空。',
+          description: '把文字发到外部渠道。content 里的换行会拆成多条消息。content 和 thought 都必须非空。',
           parameters: toolParameters,
         },
       }],
@@ -65,21 +76,38 @@ async function modelReply(config: ChatConfig, system: string, inbound: QqInbound
     }),
   })
   if (!response.ok) throw new Error(`模型请求失败 ${response.status}: ${(await response.text()).slice(0, 400)}`)
-  const body = await response.json() as {
-    choices?: { message?: { content?: string; tool_calls?: { function?: { arguments?: string } }[] } }[]
-  }
-  const call = body.choices?.[0]?.message?.tool_calls?.[0]?.function?.arguments
-  const parsed = JSON.parse(call ?? '{}') as Partial<SendTextArgs>
+  const body = await response.json() as { choices?: { message?: ModelToolMessage }[] }
+  const message = body.choices?.[0]?.message
+  const read = readToolArguments(message)
+  return { message, args: read.args, raw: read.raw }
+}
+
+function toSendArgs(completion: Completion, inbound: QqInboundText): SendTextArgs {
+  const parsed = completion.args
   return {
     channel: 'qq',
     conversation: inbound.conversation,
-    content: String(parsed.content ?? ''),
+    content: outboundContent(parsed),
     thought: String(parsed.thought ?? '').trim() || '回这句',
     mood: String(parsed.mood ?? ''),
     decision: String(parsed.decision ?? ''),
     expected_response: String(parsed.expected_response ?? ''),
     ...(inbound.messageId.length > 0 ? { reply_to: inbound.messageId } : {}),
   }
+}
+
+function logEmptyContent(completion: Completion): void {
+  const assistant = typeof completion.message?.content === 'string' ? completion.message.content : ''
+  process.stderr.write(`send_text 正文为空 raw=${completion.raw || '(无参数)'} assistant=${assistant || '(无)'}\n`)
+}
+
+async function modelReply(config: ChatConfig, system: string, inbound: QqInboundText, toolParameters: unknown): Promise<SendTextArgs> {
+  const first = await complete(config, system, inbound, toolParameters)
+  if (outboundContent(first.args).trim().length > 0) return toSendArgs(first, inbound)
+  logEmptyContent(first)
+  const second = await complete(config, system, inbound, toolParameters, RETRY_EMPTY_CONTENT)
+  if (outboundContent(second.args).trim().length === 0) logEmptyContent(second)
+  return toSendArgs(second, inbound)
 }
 
 const port = Number(process.argv[2] ?? '8097')
