@@ -37,7 +37,7 @@
   "dependencies": {
     "@deepseek-ai/dsh-mcp-client": "workspace:*",
     "@deepseek-ai/schemastery": "workspace:~",
-    "@trycua/cua-driver": "0.28.0",
+    "@trycua/cua-driver": "0.28.2",
     "zod": "4.4.3"
   },
   "devDependencies": {
