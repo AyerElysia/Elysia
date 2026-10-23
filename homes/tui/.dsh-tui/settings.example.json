@@ -1,0 +1,57 @@
+{
+  "_comment": [
+    "Copy to settings.json in this directory and adjust.",
+    "dsh-tui keeps UI preferences under a hardcoded $HOME/.dsh-tui; the launchers",
+    "point HOME at this surface's home so the file lives in the repository.",
+    "settings.json is ignored by git; this example is tracked so a clone knows",
+    "which keys exist and what a working set looks like."
+  ],
+  "version": 1,
+  "values": {
+    "codeFrameStyle": "light",
+    "companion": {
+      "skin": "whaleGirl"
+    },
+    "diffLayout": "split",
+    "fullscreen": true,
+    "imageBacking": "transparent",
+    "minimal": false,
+    "pageMargin": "slim",
+    "promptSessionLabel": true,
+    "scrollGutter": "scrollbar",
+    "sidePanel": {
+      "open": true
+    },
+    "splashFont": "daily",
+    "statusBar": {
+      "compact": true,
+      "model": true,
+      "thinking": true,
+      "cwd": true,
+      "contextUsage": true,
+      "cache": true,
+      "tokens": true,
+      "cost": false,
+      "tps": true,
+      "gitBranch": true,
+      "sessionTitle": false,
+      "sessionId": false,
+      "goal": true,
+      "mode": true,
+      "contextBar": true,
+      "activity": true,
+      "trajectory": true,
+      "shortcutHint": true
+    },
+    "terminalImages": true,
+    "thinkingFold": "full",
+    "toolBackground": "subtle",
+    "turnUsageRow": true,
+    "whale": true,
+    "whaleIdle": true,
+    "whaleGirl": true,
+    "jobGroupFold": "auto",
+    "recapOnOpen": true,
+    "effortDefault": "auto"
+  }
+}

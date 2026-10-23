@@ -8,7 +8,8 @@
     - id: elysia-conscious-mind
       name: '@elysia/conscious-mind'
       config:
-        baseDir: !!js process.env.ELYSIA_PROMPTS_DIR ?? process.env.DSH_HOME + '/standing-prompts'
+        baseDir: !!js process.env.ELYSIA_PROMPTS_DIR ?? process.env.DSH_HOME +
+          '/standing-prompts'
         files:
           - SOUL.md
           - USER.md

@@ -1,0 +1,15 @@
+# Copy this block into homes/web/profiles/web/cordis.patch.yml and fill in
+# this host's own values, or delete it if the surface does not need remote access.
+#
+# publicBaseUrl names the Cloudflare quick tunnel this host runs separately.
+# autoTunnel stays false so the plugin does not start a second cloudflared and
+# rotate the hostname out from under an already-paired device.
+#
+# The tunnel hostname and the welcome-notice version are properties of one
+# machine, which is why they are not in the tracked profile layer.
+- insert:
+    - id: remote-web-ui
+      name: '@linxin666/dsh-remote-web-ui'
+      config:
+        autoTunnel: false
+        publicBaseUrl: https://your-tunnel-name.trycloudflare.com

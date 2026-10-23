@@ -1,0 +1,58 @@
+# Copy to models.patch.yml and fill in your own values.
+#
+# The home-level patch layer is applied after every bundle layer and after the
+# profile layer, so a provider declared here reaches both surfaces.
+#
+# Point apiKeyEnv at a credential reference (see .credentials.example.yaml) —
+# never inline a key. models.patch.yml itself is ignored by git; this example is
+# tracked so the shape of a working configuration stays in the repository.
+
+- id: llm-pi-ai
+  name: "@deepseek-ai/dsh-llm-pi-ai"
+  config:
+    providers:
+      # The key becomes the provider id shown in the model picker and referenced
+      # by agent-default-model below.
+      example-provider:
+        displayName: example-provider
+        # Name of a ref in .credentials.yaml, or an environment variable.
+        apiKeyEnv: EXAMPLE_API_KEY
+        # Wire protocol. "openai-completions" covers OpenAI-compatible servers.
+        api: openai-completions
+        baseURL: https://api.example.com/v1
+        models:
+          - id: example-model
+            name: example-model
+            contextWindow: 1000000
+            maxTokens: 131072
+            input:
+              - text
+              - image
+            reasoningEfforts:
+              off: null
+              high: high
+              max: max
+            compat:
+              chatTemplateKwargs: {}
+              chatTemplateArgs: {}
+        modelOverrides: {}
+        compat:
+          chatTemplateKwargs: {}
+          chatTemplateArgs: {}
+        defaultContextWindow: 262144
+        defaultMaxTokens: 32768
+        defaultInput:
+          - text
+        headers: {}
+        thinkingBudgets: {}
+        streamIdleTimeoutMs: 300000
+        maxRequestImageBytes: 20971520
+        requestImagePixelBudget: 4194304
+        requestImageMaxBytes: 1048576
+
+# Which model a surface starts with. Omit to keep the bundle default.
+- id: agent-default-model
+  name: "@deepseek-ai/dsh-agent-default-model"
+  config:
+    provider: example-provider
+    model: example-model

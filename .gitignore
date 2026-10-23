@@ -2,11 +2,17 @@
 #
 # `dsh/` is a plain folder holding DSH source. Its own ignore rules arrive with
 # the source, so this file covers what this repository adds on top of it.
+#
+# Two rules run through the whole file:
+#   - track what a clone needs to reproduce the setup (profile definitions,
+#     examples of machine-local files);
+#   - ignore what a run writes or what describes one machine.
 
-# Installed dependencies and build output. Both are reproducible from
-# `dsh/pnpm-lock.yaml` and a build, so neither belongs in history.
+# ── Build output and dependencies ────────────────────────────────────────────
+# Reproducible from dsh/pnpm-lock.yaml plus a build.
 **/node_modules/
-**/lib/
+dsh/**/lib/
+plugins/*/lib/
 **/*.tsbuildinfo
 **/.pnpm-store/
 **/.cache/
@@ -15,8 +21,8 @@ dsh/apps/web/dist/
 dsh/.dsh-build/
 dsh/.dsh-report/
 
-# Per-surface harness homes. Profile definitions are tracked; everything a run
-# writes beside them is not.
+# ── Per-surface harness homes ───────────────────────────────────────────────
+# Everything a surface writes at runtime.
 homes/*/sessions/
 homes/*/storages/
 homes/*/logs/
@@ -25,26 +31,53 @@ homes/*/attachments/
 homes/*/themes/
 homes/*/agents/
 homes/*/requests/
-homes/*/.credentials.yaml
 homes/*/.anonymous-user-id
-# The home-level layer is a symlink to the shared model configuration above.
-homes/*/cordis.patch.yml
-# Model providers describe one machine's setup; the example shows the shape.
-homes/shared/models.patch.yml
-homes/shared/models.patch.example.yml
-!homes/shared/models.patch.example.yml
-# The generated root entry list, rewritten on every boot.
-homes/*/profiles/*/cordis.yml
-homes/*/profiles/*/node_modules/
-homes/*/profiles/*/.dsh-module-fallback/
-homes/*/profiles/*/.plugin-manager/
-# The TUI publishes its own profile on first run; that is this machine's.
-homes/tui/profiles/dsh-tui/
+homes/*/remote-web-ui-*.json
+homes/*/remote-web-ui-registry/
 
-# The prompt bodies themselves are the subject's own, not repository content.
+# Credentials never enter history. The example shows the file's shape.
+homes/*/.credentials.yaml
+!homes*/.credentials.example.yaml
+
+# The prompt bodies are the subject's own, not repository content. A surface
+# symlinks them in from wherever they actually live.
 homes/*/standing-prompts
 
-# Scratch space.
+# ── Machine-local model configuration ───────────────────────────────────────
+# The home-level layer is a symlink to the shared model file, which names one
+# machine's providers and the credential refs they read.
+homes/*/cordis.patch.yml
+homes/shared/models.patch.yml
+# The example is the contract: a clone reads it to build its own real file.
+!homes/shared/models.patch.example.yml
+
+# ── Profile internals ───────────────────────────────────────────────────────
+# A profile's definition (package.json, cordis.patch.yml) is tracked: it is the
+# composition this repository exists to describe. What pnpm and the loader
+# generate beside it is not.
+homes/*/profiles/*/node_modules/
+homes/*/profiles/*/pnpm-lock.yaml
+homes/*/profiles/*/cordis.yml
+homes/*/profiles/*/.dsh-module-fallback/
+homes/*/profiles/*/.plugin-manager/
+
+# ── dsh-tui's own preference directory ──────────────────────────────────────
+# dsh-tui keeps UI preferences and history under a hardcoded $HOME/.dsh-tui;
+# the launchers point HOME at a surface's home so that tree lands here. Ship an
+# example of the preferences; ignore the real file and everything a run writes.
+homes/*/.dsh-tui/*
+!homes/*/.dsh-tui/settings.example.json
+
+# ── Vendored third-party plugins ────────────────────────────────────────────
+# Kept outside dsh/ so an upstream update cannot touch them. Everything here is
+# tracked, including their lib/ directories: unlike the packages under dsh/,
+# these hold hand-written source rather than compiler output. The blanket
+# dsh/**/lib/ rule above deliberately does not reach here.
+vendor/*/node_modules/
+
+# ── Scratch ─────────────────────────────────────────────────────────────────
 *.log
+*.orig
+*.bak
 tmp/
 .DS_Store
