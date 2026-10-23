@@ -1,0 +1,84 @@
+lockfileVersion: '9.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+importers:
+
+  .:
+    dependencies:
+      '@elysia/conscious-mind':
+        specifier: file:../../../../plugins/conscious-mind
+        version: file:../../../../plugins/conscious-mind
+      '@elysia/feishu-app':
+        specifier: file:../../../../plugins/feishu-app
+        version: file:../../../../plugins/feishu-app(@elysia/conscious-mind@file:../../../../plugins/conscious-mind)
+      '@elysia/kook-bot':
+        specifier: file:../../../../plugins/kook-bot
+        version: file:../../../../plugins/kook-bot(@elysia/conscious-mind@file:../../../../plugins/conscious-mind)
+      '@elysia/qq-napcat':
+        specifier: file:../../../../plugins/qq-napcat
+        version: file:../../../../plugins/qq-napcat(@elysia/conscious-mind@file:../../../../plugins/conscious-mind)
+      '@elysia/request-archive':
+        specifier: file:../../../../plugins/request-archive
+        version: file:../../../../plugins/request-archive
+
+packages:
+
+  '@elysia/conscious-mind@file:../../../../plugins/conscious-mind':
+    resolution: {directory: ../../../../plugins/conscious-mind, type: directory}
+    peerDependencies:
+      '@deepseek-ai/cordis': workspace:~
+      '@deepseek-ai/dsh-llm': workspace:*
+      '@deepseek-ai/dsh-system-prompt': workspace:*
+      '@deepseek-ai/dsh-tools': workspace:*
+      '@deepseek-ai/schemastery': workspace:~
+
+  '@elysia/feishu-app@file:../../../../plugins/feishu-app':
+    resolution: {directory: ../../../../plugins/feishu-app, type: directory}
+    peerDependencies:
+      '@deepseek-ai/cordis': workspace:~
+      '@deepseek-ai/schemastery': workspace:~
+      '@elysia/conscious-mind': workspace:*
+
+  '@elysia/kook-bot@file:../../../../plugins/kook-bot':
+    resolution: {directory: ../../../../plugins/kook-bot, type: directory}
+    peerDependencies:
+      '@deepseek-ai/cordis': workspace:~
+      '@deepseek-ai/schemastery': workspace:~
+      '@elysia/conscious-mind': workspace:*
+
+  '@elysia/qq-napcat@file:../../../../plugins/qq-napcat':
+    resolution: {directory: ../../../../plugins/qq-napcat, type: directory}
+    peerDependencies:
+      '@deepseek-ai/cordis': workspace:~
+      '@deepseek-ai/dsh-system-prompt': workspace:*
+      '@deepseek-ai/dsh-tools': workspace:*
+      '@deepseek-ai/schemastery': workspace:~
+      '@elysia/conscious-mind': workspace:*
+
+  '@elysia/request-archive@file:../../../../plugins/request-archive':
+    resolution: {directory: ../../../../plugins/request-archive, type: directory}
+    peerDependencies:
+      '@deepseek-ai/cordis': workspace:~
+      '@deepseek-ai/dsh-llm': workspace:*
+      '@deepseek-ai/schemastery': workspace:~
+
+snapshots:
+
+  '@elysia/conscious-mind@file:../../../../plugins/conscious-mind': {}
+
+  '@elysia/feishu-app@file:../../../../plugins/feishu-app(@elysia/conscious-mind@file:../../../../plugins/conscious-mind)':
+    dependencies:
+      '@elysia/conscious-mind': file:../../../../plugins/conscious-mind
+
+  '@elysia/kook-bot@file:../../../../plugins/kook-bot(@elysia/conscious-mind@file:../../../../plugins/conscious-mind)':
+    dependencies:
+      '@elysia/conscious-mind': file:../../../../plugins/conscious-mind
+
+  '@elysia/qq-napcat@file:../../../../plugins/qq-napcat(@elysia/conscious-mind@file:../../../../plugins/conscious-mind)':
+    dependencies:
+      '@elysia/conscious-mind': file:../../../../plugins/conscious-mind
+
+  '@elysia/request-archive@file:../../../../plugins/request-archive': {}

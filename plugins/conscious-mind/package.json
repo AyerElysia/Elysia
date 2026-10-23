@@ -4,20 +4,31 @@
   "version": "0.2.1-rc.2",
   "private": true,
   "type": "module",
-  "main": "lib/index.js",
-  "types": "lib/types/index.d.ts",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
   "exports": {
     ".": {
-      "types": "./lib/types/index.d.ts",
-      "default": "./lib/index.js"
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    },
+    "./outbound": {
+      "types": "./src/outbound.ts",
+      "default": "./src/outbound.ts"
+    },
+    "./send-text": {
+      "types": "./src/send-text.ts",
+      "default": "./src/send-text.ts"
+    },
+    "./turn": {
+      "types": "./src/turn.ts",
+      "default": "./src/turn.ts"
     },
     "./src/*": "./src/*",
     "./package.json": "./package.json",
     "./cordis.patch.yml": "./cordis.patch.yml"
   },
   "files": [
-    "lib/index.js",
-    "lib/types/**/*.d.ts",
+    "src/**/*.ts",
     "cordis.patch.yml"
   ],
   "license": "MIT",

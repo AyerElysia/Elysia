@@ -1,19 +1,22 @@
 # Elysia-Harness: the repository around a vendored DSH checkout.
 #
-# `dsh/` is a plain folder holding DSH source; its own ignore rules travel with
-# it, so this file only covers what this repository adds.
+# `dsh/` is a plain folder holding DSH source. Its own ignore rules arrive with
+# the source, so this file covers what this repository adds on top of it.
 
-# Installed dependencies and build output (restored from dsh/pnpm-lock.yaml and
-# a build). They belong to the checkout, not to this repository.
-node_modules/
-lib/
-*.tsbuildinfo
-.pnpm-store/
-.cache/
-coverage/
+# Installed dependencies and build output. Both are reproducible from
+# `dsh/pnpm-lock.yaml` and a build, so neither belongs in history.
+**/node_modules/
+**/lib/
+**/*.tsbuildinfo
+**/.pnpm-store/
+**/.cache/
+**/coverage/
+dsh/apps/web/dist/
+dsh/.dsh-build/
+dsh/.dsh-report/
 
-# Per-surface harness homes. The profile definitions are tracked; everything the
-# run writes beside them is not.
+# Per-surface harness homes. Profile definitions are tracked; everything a run
+# writes beside them is not.
 homes/*/sessions/
 homes/*/storages/
 homes/*/logs/
@@ -21,16 +24,25 @@ homes/*/cache/
 homes/*/attachments/
 homes/*/themes/
 homes/*/agents/
+homes/*/requests/
 homes/*/.credentials.yaml
 homes/*/.anonymous-user-id
+# The home-level layer is a symlink to the shared model configuration above.
 homes/*/cordis.patch.yml
-homes/*/requests/
+# Model providers describe one machine's setup; the example shows the shape.
+homes/shared/models.patch.yml
+homes/shared/models.patch.example.yml
+!homes/shared/models.patch.example.yml
+# The generated root entry list, rewritten on every boot.
+homes/*/profiles/*/cordis.yml
 homes/*/profiles/*/node_modules/
 homes/*/profiles/*/.dsh-module-fallback/
 homes/*/profiles/*/.plugin-manager/
+# The TUI publishes its own profile on first run; that is this machine's.
+homes/tui/profiles/dsh-tui/
 
 # The prompt bodies themselves are the subject's own, not repository content.
-homes/*/standing-prompts/
+homes/*/standing-prompts
 
 # Scratch space.
 *.log

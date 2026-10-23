@@ -1,12 +1,23 @@
 {
   "name": "dsh-profile-web",
   "private": true,
-  "dependencies": {},
+  "dependencies": {
+    "@elysia/conscious-mind": "file:../../../../plugins/conscious-mind",
+    "@elysia/feishu-app": "file:../../../../plugins/feishu-app",
+    "@elysia/kook-bot": "file:../../../../plugins/kook-bot",
+    "@elysia/qq-napcat": "file:../../../../plugins/qq-napcat",
+    "@elysia/request-archive": "file:../../../../plugins/request-archive"
+  },
   "dsh": {
     "profile": {
       "bundles": [
         "@deepseek-ai/dsh-base",
-        "@deepseek-ai/dsh-web-app"
+        "@deepseek-ai/dsh-web-app",
+        "@elysia/conscious-mind",
+        "@elysia/qq-napcat",
+        "@elysia/feishu-app",
+        "@elysia/kook-bot",
+        "@elysia/request-archive"
       ]
     }
   }

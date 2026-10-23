@@ -240,6 +240,83 @@ importers:
         specifier: ^4.4.3
         version: 4.4.3
 
+  ../plugins/conscious-mind:
+    dependencies:
+      '@deepseek-ai/schemastery':
+        specifier: link:../../dsh/vendor/schemastery
+        version: link:../../dsh/vendor/schemastery
+    devDependencies:
+      '@deepseek-ai/cordis':
+        specifier: workspace:~
+        version: link:../../dsh/vendor/cordis
+      '@deepseek-ai/dsh-llm':
+        specifier: workspace:*
+        version: link:../../dsh/packages/llm/llm
+      '@deepseek-ai/dsh-system-prompt':
+        specifier: workspace:*
+        version: link:../../dsh/packages/core/system-prompt
+      '@deepseek-ai/dsh-tools':
+        specifier: workspace:*
+        version: link:../../dsh/packages/core/tools
+
+  ../plugins/feishu-app:
+    dependencies:
+      '@deepseek-ai/schemastery':
+        specifier: link:../../dsh/vendor/schemastery
+        version: link:../../dsh/vendor/schemastery
+    devDependencies:
+      '@deepseek-ai/cordis':
+        specifier: workspace:~
+        version: link:../../dsh/vendor/cordis
+      '@elysia/conscious-mind':
+        specifier: workspace:*
+        version: link:../conscious-mind
+
+  ../plugins/kook-bot:
+    dependencies:
+      '@deepseek-ai/schemastery':
+        specifier: link:../../dsh/vendor/schemastery
+        version: link:../../dsh/vendor/schemastery
+    devDependencies:
+      '@deepseek-ai/cordis':
+        specifier: workspace:~
+        version: link:../../dsh/vendor/cordis
+      '@elysia/conscious-mind':
+        specifier: workspace:*
+        version: link:../conscious-mind
+
+  ../plugins/qq-napcat:
+    dependencies:
+      '@deepseek-ai/schemastery':
+        specifier: link:../../dsh/vendor/schemastery
+        version: link:../../dsh/vendor/schemastery
+    devDependencies:
+      '@deepseek-ai/cordis':
+        specifier: workspace:~
+        version: link:../../dsh/vendor/cordis
+      '@deepseek-ai/dsh-system-prompt':
+        specifier: workspace:*
+        version: link:../../dsh/packages/core/system-prompt
+      '@deepseek-ai/dsh-tools':
+        specifier: workspace:*
+        version: link:../../dsh/packages/core/tools
+      '@elysia/conscious-mind':
+        specifier: workspace:*
+        version: link:../conscious-mind
+
+  ../plugins/request-archive:
+    dependencies:
+      '@deepseek-ai/schemastery':
+        specifier: link:../../dsh/vendor/schemastery
+        version: link:../../dsh/vendor/schemastery
+    devDependencies:
+      '@deepseek-ai/cordis':
+        specifier: workspace:~
+        version: link:../../dsh/vendor/cordis
+      '@deepseek-ai/dsh-llm':
+        specifier: workspace:*
+        version: link:../../dsh/packages/llm/llm
+
   apps/cli:
     dependencies:
       '@deepseek-ai/cordis':
@@ -491,6 +568,21 @@ importers:
       '@deepseek-ai/schemastery':
         specifier: link:../../vendor/schemastery
         version: link:../../vendor/schemastery
+      '@elysia/conscious-mind':
+        specifier: workspace:*
+        version: link:../../../plugins/conscious-mind
+      '@elysia/feishu-app':
+        specifier: workspace:*
+        version: link:../../../plugins/feishu-app
+      '@elysia/kook-bot':
+        specifier: workspace:*
+        version: link:../../../plugins/kook-bot
+      '@elysia/qq-napcat':
+        specifier: workspace:*
+        version: link:../../../plugins/qq-napcat
+      '@elysia/request-archive':
+        specifier: workspace:*
+        version: link:../../../plugins/request-archive
       commander:
         specifier: ^15.0.0
         version: 15.0.0
@@ -7568,83 +7660,6 @@ importers:
       '@deepseek-ai/dsh-session':
         specifier: workspace:*
         version: link:../../core/session
-
-  packages/elysia/conscious-mind:
-    dependencies:
-      '@deepseek-ai/schemastery':
-        specifier: link:../../../vendor/schemastery
-        version: link:../../../vendor/schemastery
-    devDependencies:
-      '@deepseek-ai/cordis':
-        specifier: workspace:~
-        version: link:../../../vendor/cordis
-      '@deepseek-ai/dsh-llm':
-        specifier: workspace:*
-        version: link:../../llm/llm
-      '@deepseek-ai/dsh-system-prompt':
-        specifier: workspace:*
-        version: link:../../core/system-prompt
-      '@deepseek-ai/dsh-tools':
-        specifier: workspace:*
-        version: link:../../core/tools
-
-  packages/elysia/feishu-app:
-    dependencies:
-      '@deepseek-ai/schemastery':
-        specifier: link:../../../vendor/schemastery
-        version: link:../../../vendor/schemastery
-    devDependencies:
-      '@deepseek-ai/cordis':
-        specifier: workspace:~
-        version: link:../../../vendor/cordis
-      '@elysia/conscious-mind':
-        specifier: workspace:*
-        version: link:../conscious-mind
-
-  packages/elysia/kook-bot:
-    dependencies:
-      '@deepseek-ai/schemastery':
-        specifier: link:../../../vendor/schemastery
-        version: link:../../../vendor/schemastery
-    devDependencies:
-      '@deepseek-ai/cordis':
-        specifier: workspace:~
-        version: link:../../../vendor/cordis
-      '@elysia/conscious-mind':
-        specifier: workspace:*
-        version: link:../conscious-mind
-
-  packages/elysia/qq-napcat:
-    dependencies:
-      '@deepseek-ai/schemastery':
-        specifier: link:../../../vendor/schemastery
-        version: link:../../../vendor/schemastery
-    devDependencies:
-      '@deepseek-ai/cordis':
-        specifier: workspace:~
-        version: link:../../../vendor/cordis
-      '@deepseek-ai/dsh-system-prompt':
-        specifier: workspace:*
-        version: link:../../core/system-prompt
-      '@deepseek-ai/dsh-tools':
-        specifier: workspace:*
-        version: link:../../core/tools
-      '@elysia/conscious-mind':
-        specifier: workspace:*
-        version: link:../conscious-mind
-
-  packages/elysia/request-archive:
-    dependencies:
-      '@deepseek-ai/schemastery':
-        specifier: link:../../../vendor/schemastery
-        version: link:../../../vendor/schemastery
-    devDependencies:
-      '@deepseek-ai/cordis':
-        specifier: workspace:~
-        version: link:../../../vendor/cordis
-      '@deepseek-ai/dsh-llm':
-        specifier: workspace:*
-        version: link:../../llm/llm
 
   packages/experimental/agent-team:
     dependencies:
