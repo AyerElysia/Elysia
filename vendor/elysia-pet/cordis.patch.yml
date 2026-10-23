@@ -1,0 +1,28 @@
+# dsh-tui-elysia-pet bundle patch：把「爱莉」作为一种新宠物皮肤加进 dsh-TUI。
+#
+# 装好后到 **/settings → 外观与布局 → 宠物皮肤**，列表里会多出「爱莉」
+# 一项，与内置的 Deepy / 鲸娘 / 像素鲸鱼并列。选它即可，不会覆盖任何内置皮肤。
+- insert:
+    - id: dsh-tui-elysia-pet
+      name: 'dsh-tui-elysia-pet'
+      # 每个键都可选，下面是默认值。
+      config:
+        # 皮肤 id（^[a-z][a-z0-9_-]*$）；改它等于新增另一个皮肤槽位。
+        skinId: 'elysia'
+        # 在「宠物皮肤」列表里显示的名字与副标题。
+        title: 'Elysia'
+        description: '爱莉'
+        # 状态 → 动画键映射；素材缺哪个键就逐级回退，不会报错。
+        idleAnimation: 'idle'
+        workingAnimation: 'working'
+        thinkingAnimation: 'thinking'
+        happyAnimation: 'happy'
+        sleepingAnimation: 'sleeping'
+        # 庆祝动画是否在两个变体间随机（素材里有两个"随机触发"表情）。
+        celebrationVariants: true
+        # 待机族动画的播放倍率：1 = 原始速度（960ms 一轮），>1 变慢。
+        # 只影响 idle / idle-look / idle-spout / swim / sleeping ——
+        # 这些是长时间循环的，原速显得急躁；干活时的动画保持原速。
+        idleSpeed: 1
+        # true = 启动即自动切到爱莉；默认 false（只加入列表，由你在设置里选）。
+        activateOnLoad: false

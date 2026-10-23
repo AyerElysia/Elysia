@@ -1,0 +1,61 @@
+{
+  "name": "dsh-tui-elysia-pet",
+  "version": "0.1.0",
+  "description": "Elysia — a pixel-art desktop companion skin for dsh-TUI. Reacts to agent state and mouse interaction.",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "default": "./lib/index.js"
+    },
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "engines": {
+    "node": "^22.19 || >=24"
+  },
+  "files": [
+    "lib",
+    "assets",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "scripts": {
+    "build": "node scripts/build-frames.mjs",
+    "test": "node test/run.mjs",
+    "render:actions": "node scripts/render-action-table.mjs",
+    "render:notifications": "node scripts/render-notification-table.mjs"
+  },
+  "dependencies": {},
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.1",
+    "@deepseek-harness-tui/dsh-tui": ">=0.13.0"
+  },
+  "keywords": [
+    "dsh-tui",
+    "dsh",
+    "companion",
+    "pet",
+    "skin",
+    "pixel-art",
+    "tui",
+    "terminal",
+    "elysia"
+  ],
+  "author": "TriSeTide",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TriSeTide/dsh-tui-elysia-pet.git"
+  },
+  "homepage": "https://github.com/TriSeTide/dsh-tui-elysia-pet#readme",
+  "bugs": {
+    "url": "https://github.com/TriSeTide/dsh-tui-elysia-pet/issues"
+  }
+}

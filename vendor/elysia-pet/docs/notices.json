@@ -1,0 +1,735 @@
+{
+ "error": [
+  {
+   "key": "agentsmd-create-failed",
+   "zh": "创建 AGENTS.md 失败",
+   "file": "Chat.js"
+  },
+  {
+   "key": "agentview-dispatch-failed",
+   "zh": "后台会话创建失败 · {{err}}",
+   "file": "agent-view-projection.js"
+  },
+  {
+   "key": "agentview-dispatch-unavailable",
+   "zh": "无法派发后台会话——agent 服务不可用",
+   "file": "agent-view-projection.js"
+  },
+  {
+   "key": "color-unknown",
+   "zh": "未知颜色「{{name}}」· 可选：{{list}}",
+   "file": "Chat.js"
+  },
+  {
+   "key": "command-not-found",
+   "zh": "/{{name}}：没有这个命令",
+   "file": "Chat.js"
+  },
+  {
+   "key": "compact-failed",
+   "zh": "压缩失败 · {{err}}",
+   "file": "compaction.js"
+  },
+  {
+   "key": "ext-shortcut-failed",
+   "zh": "插件快捷键 {{combo}} 执行失败",
+   "file": "Chat.js"
+  },
+  {
+   "key": "fork-create-failed",
+   "zh": "分叉失败——无法创建分叉会话",
+   "file": "session-fork.js"
+  },
+  {
+   "key": "fork-failed",
+   "zh": "分叉失败 · {{err}}",
+   "file": "session-fork.js"
+  },
+  {
+   "key": "fork-unavailable",
+   "zh": "分叉不可用——会话服务未加载",
+   "file": "session-fork.js"
+  },
+  {
+   "key": "jobs-kill-failed",
+   "zh": "无法停止任务 {{id}}（任务不存在或任务服务未挂载）",
+   "file": "builtinPanels.js"
+  },
+  {
+   "key": "lang-unknown",
+   "zh": "未知语言「{{lang}}」· /lang 查看全部（en / zh）",
+   "file": "Chat.js"
+  },
+  {
+   "key": "launchpad-continue-failed",
+   "zh": "继续上次会话失败，已打开历史会话列表",
+   "file": "Chat.js"
+  },
+  {
+   "key": "launchpad-continue-none",
+   "zh": "没有可继续的会话，已打开历史会话列表",
+   "file": "Chat.js"
+  },
+  {
+   "key": "migrate-dry-run-needs-source",
+   "zh": "请指明要预览的源：/migrate <agent> --dry-run",
+   "file": "Chat.js"
+  },
+  {
+   "key": "migrate-spawn-failed",
+   "zh": "无法启动迁移子进程（找不到本包 bin）",
+   "file": "Chat.js"
+  },
+  {
+   "key": "migrate-unknown-agent",
+   "zh": "未知迁移源 {{agent}}，可用源见 /migrate",
+   "file": "Chat.js"
+  },
+  {
+   "key": "migrate-usage",
+   "zh": "一次只能迁移一个源：/migrate <agent> [--dry-run]",
+   "file": "Chat.js"
+  },
+  {
+   "key": "model-load-failed",
+   "zh": "模型列表加载失败",
+   "file": "Chat.js"
+  },
+  {
+   "key": "model-switch-failed",
+   "zh": "模型切换失败 · {{err}}",
+   "file": "model-switch.js"
+  },
+  {
+   "key": "model-unknown",
+   "zh": "未知模型「{{spec}}」· /model 查看全部",
+   "file": "Chat.js"
+  },
+  {
+   "key": "new-session-unavailable",
+   "zh": "新建会话不可用——agents 服务未加载",
+   "file": "session-resume.js"
+  },
+  {
+   "key": "permission-mode-unknown",
+   "zh": "没有这个权限模式：{{id}}",
+   "file": "Chat.js"
+  },
+  {
+   "key": "plugin-scene-crashed",
+   "zh": "插件场景「{{id}}」渲染崩溃：{{err}}（已自动关闭）",
+   "file": "Chat.js"
+  },
+  {
+   "key": "resume-failed",
+   "zh": "恢复失败 · {{err}}",
+   "file": "session-resume.js"
+  },
+  {
+   "key": "resume-session-changed",
+   "zh": "会话已切换，恢复已放弃",
+   "file": "session-resume.js"
+  },
+  {
+   "key": "resume-session-occupied",
+   "zh": "该会话正被其他 TUI 终端占用（进程 {{pid}}），无法进入",
+   "file": "session-resume.js"
+  },
+  {
+   "key": "resume-unavailable",
+   "zh": "恢复不可用——agents 服务未加载",
+   "file": "session-resume.js"
+  },
+  {
+   "key": "rewind-create-failed",
+   "zh": "回退失败——无法创建替代会话",
+   "file": "session-rewind.js"
+  },
+  {
+   "key": "rewind-first-message",
+   "zh": "(无中文)",
+   "file": "session-tree-actions.js"
+  },
+  {
+   "key": "rewind-fork-failed",
+   "zh": "无法回退到该处 · {{err}}",
+   "file": "session-rewind.js"
+  },
+  {
+   "key": "rewind-load-failed",
+   "zh": "无法读取该会话日志 · {{err}}",
+   "file": "session-tree-actions.js"
+  },
+  {
+   "key": "rewind-no-persistence",
+   "zh": "回退不可用——持久化服务未加载",
+   "file": "session-tree-actions.js"
+  },
+  {
+   "key": "rewind-session-changed",
+   "zh": "会话已切换，回退已放弃",
+   "file": "session-tree-actions.js"
+  },
+  {
+   "key": "rewind-settling",
+   "zh": "无法回退——回合仍在收尾，请稍候再试",
+   "file": "session-rewind.js"
+  },
+  {
+   "key": "rewind-unavailable",
+   "zh": "回退不可用——会话服务未加载",
+   "file": "session-rewind.js"
+  },
+  {
+   "key": "skills-load-failed",
+   "zh": "技能列表加载失败",
+   "file": "Chat.js"
+  },
+  {
+   "key": "skills-unknown",
+   "zh": "未知技能「{{name}}」",
+   "file": "Chat.js"
+  },
+  {
+   "key": "star-failed",
+   "zh": "一键 star 没成功：{{detail}}（也可以直接在浏览器里打开 {{url}}）",
+   "file": "Chat.js"
+  },
+  {
+   "key": "turn-failed",
+   "zh": "回合出错{{detail}}",
+   "file": "projection.js"
+  },
+  {
+   "key": "workspace-command-failed",
+   "zh": "workspace 操作失败 · {{err}}",
+   "file": "Chat.js"
+  },
+  {
+   "key": "workspace-command-unknown",
+   "zh": "未知的 workspace 子命令：{{command}}",
+   "file": "Chat.js"
+  },
+  {
+   "key": "workspace-list-failed",
+   "zh": "读取工作区失败 · {{err}}",
+   "file": "Chat.js"
+  },
+  {
+   "key": "workspace-uri-failed",
+   "zh": "加载工作区失败 · {{err}}",
+   "file": "Chat.js"
+  },
+  {
+   "key": "workspace-uri-invalid",
+   "zh": "无法解析工作区目标：{{uri}}",
+   "file": "Chat.js"
+  }
+ ],
+ "warning": [
+  {
+   "key": "activity-usage",
+   "zh": "用法：/activity | /activity frames <名> | /activity status",
+   "file": "Chat.js"
+  },
+  {
+   "key": "agentview-reply-empty",
+   "zh": "回复内容为空",
+   "file": "agent-view-projection.js"
+  },
+  {
+   "key": "agentview-reply-stopped",
+   "zh": "该会话未运行——回车切换进去后回复",
+   "file": "agent-view-projection.js"
+  },
+  {
+   "key": "btw-thread-busy",
+   "zh": "上一个侧问还在回答，等它结束再追问",
+   "file": "Chat.js"
+  },
+  {
+   "key": "capability-unavailable",
+   "zh": "/{{name}} 在当前 agent 预设下不可用：{{reason}}",
+   "file": "Chat.js"
+  },
+  {
+   "key": "capability-unavailable-backend",
+   "zh": "当前内核不支持：{{name}}",
+   "file": "PromptInput.js"
+  },
+  {
+   "key": "channel-switch-restart-unavailable",
+   "zh": "已切换到 {{name}}，新连接从下次会话起生效",
+   "file": "useBackendChannels.js"
+  },
+  {
+   "key": "command-running",
+   "zh": "命令仍在执行，请等待本次结果",
+   "file": "PromptInput.js"
+  },
+  {
+   "key": "compact-cancelled-switch",
+   "zh": "压缩进行中，已取消并切换会话",
+   "file": "compaction.js"
+  },
+  {
+   "key": "compact-flush-failed",
+   "zh": "压缩已生效，但落盘检查失败——历史已由摘要替代，请留意会话状态",
+   "file": "compaction.js"
+  },
+  {
+   "key": "compact-unavailable",
+   "zh": "压缩不可用——当前 leaf 没有压缩服务",
+   "file": "compaction.js"
+  },
+  {
+   "key": "context-unavailable",
+   "zh": "当前会话没有已加载的上下文",
+   "file": "Chat.js"
+  },
+  {
+   "key": "ext-compact-stale",
+   "zh": "等待插件期间会话已切换，压缩已取消",
+   "file": "compaction.js"
+  },
+  {
+   "key": "ext-stale-dropped",
+   "zh": "等待插件期间会话已切换，该条输入已丢弃",
+   "file": "external-commands.js"
+  },
+  {
+   "key": "fork-attach-failed",
+   "zh": "已分叉，但工作区挂载失败 · {{err}}",
+   "file": "session-fork.js"
+  },
+  {
+   "key": "input-cannot-retract",
+   "zh": "无法撤回：消息可能已被处理，或当前版本不支持",
+   "file": "PromptInput.js"
+  },
+  {
+   "key": "input-clipboard-empty",
+   "zh": "剪贴板为空",
+   "file": "PromptInput.js"
+  },
+  {
+   "key": "input-clipboard-read-failed",
+   "zh": "读取剪贴板失败",
+   "file": "PromptInput.js"
+  },
+  {
+   "key": "input-dock-confirming",
+   "zh": "{{n}} 条暂存消息还在等打断完成，稍后再发送或编辑",
+   "file": "input-actions.js"
+  },
+  {
+   "key": "input-editor-unavailable",
+   "zh": "错误：未配置编辑器。请设置 $VISUAL 或 $EDITOR 环境变量。",
+   "file": "PromptInput.js"
+  },
+  {
+   "key": "input-empty",
+   "zh": "输入为空，没有可发送的内容",
+   "file": "PromptInput.js"
+  },
+  {
+   "key": "input-image-format-unsupported",
+   "zh": "剪贴板图片格式不受支持；请使用 PNG、JPEG、WebP 或 GIF",
+   "file": "PromptInput.js"
+  },
+  {
+   "key": "input-image-paste-failed",
+   "zh": "粘贴图片失败：{{err}}",
+   "file": "PromptInput.js"
+  },
+  {
+   "key": "input-image-token-stale",
+   "zh": "{{token}} 已失效，发送时不会附带图片",
+   "file": "external-commands.js"
+  },
+  {
+   "key": "kernel-switch-unavailable",
+   "zh": "当前环境不支持切换内核",
+   "file": "useKernelPicker.js"
+  },
+  {
+   "key": "mcp-control-usage",
+   "zh": "用法：/mcp reconnect <服务器> 或 /mcp toggle <服务器> on|off",
+   "file": "Chat.js"
+  },
+  {
+   "key": "mode-permission-invoke-failed",
+   "zh": "/permission 切换失败，请重试或查看日志",
+   "file": "mode-permission.js"
+  },
+  {
+   "key": "mode-permission-no-canonical",
+   "zh": "模式「{{name}}」的 sandbox/approval 组合没有对应权限预设，无法安全切换",
+   "file": "mode-permission.js"
+  },
+  {
+   "key": "mode-permission-unconfirmed",
+   "zh": "权限切换未被 DSH 确认，模式未改变",
+   "file": "mode-permission.js"
+  },
+  {
+   "key": "mode-permission-unregistered",
+   "zh": "当前 preset 未注册 /permission 命令，无法切换权限模式",
+   "file": "mode-permission.js"
+  },
+  {
+   "key": "model-pref-write-failed",
+   "zh": "无法写入 ~/.dsh-tui/model.json，模型选择不会保存到重启后",
+   "file": "model-switch.js"
+  },
+  {
+   "key": "model-route-invalid",
+   "zh": "持久化的模型路由 {{provider}}/{{model}} 不在该 provider 的模型列表中，已整体回退到 {{fallback}}",
+   "file": "session-resume.js"
+  },
+  {
+   "key": "model-switch-legacy-unavailable",
+   "zh": "同会话切换模型需要 DSH >= 0.1.2-alpha.3，请先升级 DSH",
+   "file": "model-switch.js"
+  },
+  {
+   "key": "model-usage",
+   "zh": "用法：/model <provider/model>（如 deepseek/deepseek-flash）",
+   "file": "Chat.js"
+  },
+  {
+   "key": "new-session-attach-failed",
+   "zh": "会话已创建，但工作区挂载失败 · {{err}}",
+   "file": "session-resume.js"
+  },
+  {
+   "key": "preset-roster-unmounted",
+   "zh": "当前组合未挂载 agent-presets 名册（preset 不可用）",
+   "file": "Chat.js"
+  },
+  {
+   "key": "preset-switched-pref-failed",
+   "zh": "Preset 已切换：{{id}}，但默认偏好写入失败（重启后不保留）",
+   "file": "session-resume.js"
+  },
+  {
+   "key": "provider-unavailable",
+   "zh": "/provider 需要经 dsh profile 启动（settings / credentials / llm-pi-ai 服务未挂载）",
+   "file": "Chat.js"
+  },
+  {
+   "key": "restart-unavailable",
+   "zh": "当前运行方式不支持进程内重启（未挂载重启通道）。",
+   "file": "Chat.js"
+  },
+  {
+   "key": "resume-attach-failed",
+   "zh": "已恢复会话，但工作区挂载失败 · {{err}}",
+   "file": "session-resume.js"
+  },
+  {
+   "key": "rewind-attach-failed",
+   "zh": "已回退，但工作区挂载失败 · {{err}}",
+   "file": "session-rewind.js"
+  },
+  {
+   "key": "rewind-noop",
+   "zh": "该点之后没有可回退的内容",
+   "file": "session-tree-actions.js"
+  },
+  {
+   "key": "settings-terminal-images-restart",
+   "zh": "图片预览设置已保存，使用 /restart 重启 TUI 后生效",
+   "file": "plugin.js"
+  },
+  {
+   "key": "shell-images-unsupported",
+   "zh": "Shell 命令不接受图片；草稿已保留",
+   "file": "input-actions.js"
+  },
+  {
+   "key": "skills-not-invocable",
+   "zh": "技能「{{name}}」不可直接调用",
+   "file": "Chat.js"
+  },
+  {
+   "key": "star-no-gh",
+   "zh": "没找到 gh（GitHub CLI），已经替你在浏览器里打开仓库页：{{url}}。装一个 gh 就能一键 star：https://cli.github.com",
+   "file": "Chat.js"
+  },
+  {
+   "key": "star-not-authed",
+   "zh": "gh 还没登录，已经替你在浏览器里打开仓库页：{{url}}。想一键 star 就先跑 gh auth login",
+   "file": "Chat.js"
+  },
+  {
+   "key": "startup-not-ready",
+   "zh": "{{backend}} 还在启动——就绪后按 Enter 发送",
+   "file": "PromptInput.js"
+  },
+  {
+   "key": "update-unavailable",
+   "zh": "当前运行方式不支持自动更新（需经 dsh --profile 启动），请在终端执行 dsh plugin --profile <name> update @deepseek-harness-tui/dsh-tui",
+   "file": "Chat.js"
+  },
+  {
+   "key": "workspace-flow-input-empty",
+   "zh": "目录路径不能为空",
+   "file": "Chat.js"
+  }
+ ],
+ "success": [
+  {
+   "key": "channel-switched",
+   "zh": "已切换到 {{name}}，模型显示已刷新",
+   "file": "useBackendChannels.js"
+  },
+  {
+   "key": "color-set",
+   "zh": "会话颜色已设为 {{name}}",
+   "file": "Chat.js"
+  },
+  {
+   "key": "mode-switched",
+   "zh": "模式 → {{name}}",
+   "file": "useBackendChannels.js"
+  },
+  {
+   "key": "panel-sent-to-chat",
+   "zh": "已附加到输入框：{{title}}（Esc 可撤）",
+   "file": "builtinPanels.js"
+  },
+  {
+   "key": "recap-title-applied-notify",
+   "zh": "已将会话标题设为「{{title}}」",
+   "file": "Chat.js"
+  },
+  {
+   "key": "star-ok",
+   "zh": "已 star，谢谢！",
+   "file": "Chat.js"
+  }
+ ],
+ "null": [
+  {
+   "key": "agentsmd-created",
+   "zh": "已创建 {{result}}",
+   "file": "Chat.js"
+  },
+  {
+   "key": "agentsmd-exists",
+   "zh": "AGENTS.md 已存在，未覆盖",
+   "file": "Chat.js"
+  },
+  {
+   "key": "btw-thread-clear",
+   "zh": "已开始新话题：上下文与未读已清空",
+   "file": "BtwThreadScene.js"
+  },
+  {
+   "key": "btw-usage",
+   "zh": "用法：/btw <问题> —— 不打断当前对话的快速侧问",
+   "file": "Chat.js"
+  },
+  {
+   "key": "channel-already-active",
+   "zh": "已是当前渠道",
+   "file": "useBackendChannels.js"
+  },
+  {
+   "key": "cmd-unavailable-backend",
+   "zh": "/{{cmd}} 在 {{backend}} 内核下不可用",
+   "file": "PromptInput.js"
+  },
+  {
+   "key": "color-reset",
+   "zh": "已清除会话颜色，恢复主题默认",
+   "file": "Chat.js"
+  },
+  {
+   "key": "command-images-unsupported",
+   "zh": "/{{name}} 不接受图片；草稿已保留",
+   "file": "PromptInput.js"
+  },
+  {
+   "key": "compact-cancelled",
+   "zh": "压缩已取消",
+   "file": "compaction.js"
+  },
+  {
+   "key": "copied-chars",
+   "zh": "已复制 {{n}} 个字符",
+   "file": "BtwThreadScene.js"
+  },
+  {
+   "key": "copy-refused-stale",
+   "zh": "选区内容已变化，已取消复制",
+   "file": "Chat.js"
+  },
+  {
+   "key": "exit-press-again",
+   "zh": "再次按 Ctrl+C 退出",
+   "file": "Chat.js"
+  },
+  {
+   "key": "input-dock-sent",
+   "zh": "已发送 {{n}} 条暂存消息",
+   "file": "PromptInput.js"
+  },
+  {
+   "key": "input-dock-swapped",
+   "zh": "已交换：草稿暂存，所点消息回到输入框（Ctrl+Z 换回）",
+   "file": "PromptInput.js"
+  },
+  {
+   "key": "input-editor-failed",
+   "zh": "外部编辑器失败：{{name}}",
+   "file": "PromptInput.js"
+  },
+  {
+   "key": "input-interrupt-immediate",
+   "zh": "已打断当前回合，正在立即处理",
+   "file": "PromptInput.js"
+  },
+  {
+   "key": "input-interrupted-next",
+   "zh": "已插话 · 下一步立即处理",
+   "file": "PromptInput.js"
+  },
+  {
+   "key": "input-queued-after-turn",
+   "zh": "已排队 · 回合结束后处理",
+   "file": "PromptInput.js"
+  },
+  {
+   "key": "input-retracted",
+   "zh": "已撤回，可编辑后重新发送",
+   "file": "PromptInput.js"
+  },
+  {
+   "key": "input-sent-after-turn",
+   "zh": "已发送，当前回合结束后处理",
+   "file": "PromptInput.js"
+  },
+  {
+   "key": "kernel-already-current",
+   "zh": "已经是当前内核",
+   "file": "useKernelPicker.js"
+  },
+  {
+   "key": "login-logout-hint",
+   "zh": "使用 /provider 管理 DSH 凭据；若来源为 env，请删除对应环境变量并重启 dsh-tui",
+   "file": "Chat.js"
+  },
+  {
+   "key": "migrate-hint-notify",
+   "zh": "刚刚从 {{agent}} 过来？/migrate 来快速迁移",
+   "file": "Chat.js"
+  },
+  {
+   "key": "migrate-source-done",
+   "zh": "{{label}}：导入 {{imported}} · 已存在 {{existing}}",
+   "file": "Chat.js"
+  },
+  {
+   "key": "mode-switch-failed",
+   "zh": "模式切换失败 · {{err}}",
+   "file": "PromptInput.js"
+  },
+  {
+   "key": "model-switched",
+   "zh": "模型已切换为 {{name}}",
+   "file": "Chat.js"
+  },
+  {
+   "key": "model-switching",
+   "zh": "正在切换模型到 {{name}}…",
+   "file": "Chat.js"
+  },
+  {
+   "key": "new-session-started",
+   "zh": "已新建会话",
+   "file": "Chat.js"
+  },
+  {
+   "key": "onboarding-skipped",
+   "zh": "已跳过首次引导，随时可用 /setup 重跑",
+   "file": "Chat.js"
+  },
+  {
+   "key": "panel-plugin-disabled-toast",
+   "zh": "插件面板因连续崩溃已被禁用",
+   "file": "PanelHost.js"
+  },
+  {
+   "key": "panel-unavailable-hint",
+   "zh": "侧栏需要全屏且内容区 ≥93 列；该面板没有整屏形态",
+   "file": "Chat.js"
+  },
+  {
+   "key": "rename-done",
+   "zh": "已重命名为「{{title}}」",
+   "file": "Chat.js"
+  },
+  {
+   "key": "restart-starting",
+   "zh": "正在重启 dsh-tui，完成后自动恢复当前会话……",
+   "file": "Chat.js"
+  },
+  {
+   "key": "resume-resumed",
+   "zh": "已恢复会话",
+   "file": "Chat.js"
+  },
+  {
+   "key": "rewind-done",
+   "zh": "已回退——编辑后按 Enter 重新发送",
+   "file": "Chat.js"
+  },
+  {
+   "key": "rewind-none",
+   "zh": "还没有可回退的消息",
+   "file": "Chat.js"
+  },
+  {
+   "key": "task-complete-notification",
+   "zh": "dsh-TUI · 任务已完成",
+   "file": "plugin.js"
+  },
+  {
+   "key": "thinking-toggled",
+   "zh": "思考过程：{{state}}",
+   "file": "Chat.js"
+  },
+  {
+   "key": "tree-adopted",
+   "zh": "已切换到该分支",
+   "file": "SessionTree.js"
+  },
+  {
+   "key": "update-starting",
+   "zh": "正在更新 @deepseek-harness-tui/dsh-tui，完成后会自动重启并恢复当前会话……",
+   "file": "Chat.js"
+  },
+  {
+   "key": "workspace-command-empty",
+   "zh": "该 workspace 操作没有可选目标",
+   "file": "Chat.js"
+  },
+  {
+   "key": "workspace-none",
+   "zh": "没有可用工作区",
+   "file": "Chat.js"
+  },
+  {
+   "key": "workspace-open-usage",
+   "zh": "用法：/workspace open <路径或 URI>",
+   "file": "Chat.js"
+  },
+  {
+   "key": "workspace-rename-usage",
+   "zh": "用法：/workspace rename <名称>",
+   "file": "Chat.js"
+  }
+ ]
+}
