@@ -1,0 +1,38 @@
+# Elysia-Harness: the repository around a vendored DSH checkout.
+#
+# `dsh/` is a plain folder holding DSH source; its own ignore rules travel with
+# it, so this file only covers what this repository adds.
+
+# Installed dependencies and build output (restored from dsh/pnpm-lock.yaml and
+# a build). They belong to the checkout, not to this repository.
+node_modules/
+lib/
+*.tsbuildinfo
+.pnpm-store/
+.cache/
+coverage/
+
+# Per-surface harness homes. The profile definitions are tracked; everything the
+# run writes beside them is not.
+homes/*/sessions/
+homes/*/storages/
+homes/*/logs/
+homes/*/cache/
+homes/*/attachments/
+homes/*/themes/
+homes/*/agents/
+homes/*/.credentials.yaml
+homes/*/.anonymous-user-id
+homes/*/cordis.patch.yml
+homes/*/requests/
+homes/*/profiles/*/node_modules/
+homes/*/profiles/*/.dsh-module-fallback/
+homes/*/profiles/*/.plugin-manager/
+
+# The prompt bodies themselves are the subject's own, not repository content.
+homes/*/standing-prompts/
+
+# Scratch space.
+*.log
+tmp/
+.DS_Store

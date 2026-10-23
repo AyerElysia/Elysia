@@ -1,0 +1,37 @@
+# Bilingual-pair consistency record for README.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Chinese blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write packages/elysia/conscious-mind/README.md
+/elysia-conscious-mind:
+  en: c55728ecd5c95485
+  zh: 326b8025446897c2
+/elysia-conscious-mind/prefix:
+  en: ce173086626f6939
+  zh: 476733647048a06a
+/elysia-conscious-mind/send-text:
+  en: 10a13c106b6811c5
+  zh: 51ca0eafdf2421ee
+/elysia-conscious-mind/pending:
+  en: 51f299e8b972f989
+  zh: 19fbce33ecf09065
+/elysia-conscious-mind/pending/parameters:
+  en: 371889105ccaeaee
+  zh: a33ed887658c6949
+/elysia-conscious-mind/pending/schema:
+  en: a030b2dd9ac9765f
+  zh: 383085789e43539d
+/elysia-conscious-mind/pending/splitting-on-n:
+  en: 575a0a5a1361b085
+  zh: 114c12ef75cd7ae9
+/elysia-conscious-mind/pending/routing:
+  en: 416d297c153617a2
+  zh: a666c6f40b207ab3
+/elysia-conscious-mind/pending/failure-semantics:
+  en: dba30bd3130d8bf3
+  zh: 6111e0c1398d4dc1
+/elysia-conscious-mind/pending/open-questions:
+  en: c7acb1d19a719b4e
+  zh: ade67b85cf9aea46
+/elysia-conscious-mind/terminal-entry:
+  en: 0479b5175451bd64
+  zh: 558ac2acc4c30243

@@ -1,0 +1,9 @@
+# The QQ channel over NapCat's OneBot socket. Registers the `qq` sender that
+# send_text looks up, and emits `qq/message` for a consumer to receive into the
+# conscious mind's pending queue.
+- insert:
+    - id: elysia-qq-napcat
+      name: '@elysia/qq-napcat'
+      config:
+        configPath: ''
+        port: 0

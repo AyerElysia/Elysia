@@ -1,0 +1,8 @@
+# The Feishu channel over the self-built app's event long connection.
+# `listen: true` opens the socket; one app can hold only one.
+- insert:
+    - id: elysia-feishu-app
+      name: '@elysia/feishu-app'
+      config:
+        configPath: ''
+        listen: false

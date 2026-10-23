@@ -1,0 +1,8 @@
+# The KOOK channel over the Bot gateway socket. `listen: true` opens it;
+# one token can hold only one gateway.
+- insert:
+    - id: elysia-kook-bot
+      name: '@elysia/kook-bot'
+      config:
+        configPath: ''
+        listen: false

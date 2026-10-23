@@ -1,0 +1,16 @@
+# Bilingual-pair consistency record for README.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Chinese blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write packages/elysia/kook-bot/README.md
+/elysia-kook-bot:
+  en: ecd116efa3bd0ca4
+  zh: 0aa7e2310c461e69
+/elysia-kook-bot/conversation-windows:
+  en: 529e7c29b5f298c8
+  zh: 9089e9f530dec73f
+/elysia-kook-bot/sending:
+  en: 91b52d96b3cc80aa
+  zh: d3ba08eeceee236b
+/elysia-kook-bot/receiving:
+  en: 71f64ff0de1eb262
+  zh: 38c867083fdba9c0

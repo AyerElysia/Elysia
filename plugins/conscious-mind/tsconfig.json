@@ -1,0 +1,27 @@
+{
+  "extends": "../../dsh/tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "lib/types"
+  },
+  "include": [
+    "src"
+  ],
+  "references": [
+    {
+      "path": "../../dsh/vendor/cordis"
+    },
+    {
+      "path": "../../dsh/vendor/schemastery"
+    },
+    {
+      "path": "../../dsh/packages/llm/llm"
+    },
+    {
+      "path": "../../dsh/packages/core/system-prompt"
+    },
+    {
+      "path": "../../dsh/packages/core/tools"
+    }
+  ]
+}

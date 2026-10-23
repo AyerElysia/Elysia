@@ -1,0 +1,6 @@
+# Retain every model request as its own JSON file before the adapter sends it.
+- insert:
+    - id: elysia-request-archive
+      name: '@elysia/request-archive'
+      config:
+        dir: !!js process.env.ELYSIA_REQUESTS_DIR ?? 'Data/requests'

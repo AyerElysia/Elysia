@@ -1,0 +1,22 @@
+# Bilingual-pair consistency record for README.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Chinese blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write packages/elysia/qq-napcat/README.md
+/elysia-qq-napcat:
+  en: 61f38c5851d50187
+  zh: 03cf484e3ceb1da2
+/elysia-qq-napcat/conversation-windows:
+  en: c89bfa35acc287b9
+  zh: 1f0327340e6838a5
+/elysia-qq-napcat/sending:
+  en: 9983482b9a1464cd
+  zh: c50d6ca448e2ef74
+/elysia-qq-napcat/receiving:
+  en: 433f96bee0262816
+  zh: ac1264f2a3ab4c0e
+/elysia-qq-napcat/connection-settings:
+  en: da95de74efa6c97c
+  zh: 9c4baad5ac6143d0
+/elysia-qq-napcat/acceptance:
+  en: 0d7e41da29f26118
+  zh: a96f74a1f62137ef

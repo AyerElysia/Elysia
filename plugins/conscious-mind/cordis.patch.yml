@@ -1,0 +1,14 @@
+# The Elysia conscious mind as a profile bundle: the standing-prompt prefix,
+# the send_text tool, and the inbound pending queue. Requires `systemPrompt`;
+# the tool attaches when the profile also provides `tools`.
+- insert:
+    - id: elysia-conscious-mind
+      name: '@elysia/conscious-mind'
+      config:
+        baseDir: !!js process.env.ELYSIA_PROMPTS_DIR ?? 'Data/standing-prompts'
+        files:
+          - SOUL.md
+          - USER.md
+          - MEMORY.md
+          - EXISTENCE.md
+          - TOOLS.md

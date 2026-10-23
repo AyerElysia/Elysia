@@ -1,0 +1,16 @@
+# Bilingual-pair consistency record for README.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Chinese blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write packages/elysia/feishu-app/README.md
+/elysia-feishu-app:
+  en: 8e8e290a19b60535
+  zh: 99f7dd3077450029
+/elysia-feishu-app/conversation-windows:
+  en: 250a7e841ffb480b
+  zh: f3e017eb156cfb00
+/elysia-feishu-app/sending:
+  en: 7fd57814498157ca
+  zh: 524bd64dd3a241ef
+/elysia-feishu-app/receiving:
+  en: 6f2d273e312d9089
+  zh: 20168a82514f098f
