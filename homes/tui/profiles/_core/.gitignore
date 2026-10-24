@@ -1,0 +1,10 @@
+# The shared dependency tree every surface's profile links to.
+#
+# A profile's own node_modules is generated; this one is the source of truth for
+# which upstream versions the plugin stack is built against. The lockfile is
+# therefore tracked here, unlike the per-profile ones, and node_modules is not.
+
+node_modules/
+
+# pnpm's local state.
+.pnpm-store/

@@ -56,8 +56,13 @@ homes/shared/models.patch.yml
 # composition this repository exists to describe. What pnpm and the loader
 # generate beside it is not.
 homes/*/profiles/*/node_modules/
-homes/*/profiles/*/pnpm-lock.yaml
 homes/*/profiles/*/cordis.yml
+
+# The shared dependency tree is the exception: it pins the upstream versions the
+# plugin stack is built against, so its lockfile is the reproducible artifact
+# every profile links to. A profile's own lockfile is generated and stays out.
+homes/*/profiles/*/pnpm-lock.yaml
+!homes/*/profiles/_core/pnpm-lock.yaml
 homes/*/profiles/*/.dsh-module-fallback/
 homes/*/profiles/*/.plugin-manager/
 
