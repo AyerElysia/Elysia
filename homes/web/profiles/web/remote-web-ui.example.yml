@@ -1,15 +1,32 @@
-# Copy this block into homes/web/profiles/web/cordis.patch.yml and fill in
-# this host's own values, or delete it if the surface does not need remote access.
+# Remote access for the web surface.
 #
-# publicBaseUrl names the Cloudflare quick tunnel this host runs separately.
-# autoTunnel stays false so the plugin does not start a second cloudflared and
-# rotate the hostname out from under an already-paired device.
+# Copy the block below into homes/web/profiles/web/cordis.patch.yml when this
+# host serves the pairing flow, or delete this file if it does not.
 #
-# The tunnel hostname and the welcome-notice version are properties of one
-# machine, which is why they are not in the tracked profile layer.
+# publicBaseUrl names the Cloudflare quick tunnel this host runs on its own:
+#
+#   cd homes/web/profiles/web/node_modules/cloudflared \
+#     && ./bin/cloudflared tunnel --url http://127.0.0.1:3299 --protocol http2
+#
+# autoTunnel stays false — with it on the plugin starts a second cloudflared and
+# reports a hostname that rotates out from under an already-paired device.
+#
+# A quick tunnel's hostname changes when cloudflared restarts. Either update the
+# value below then, or export DSH_REMOTE_PUBLIC_URL and let the expression fall
+# back to it, so the checked-in default can stay generic.
+
 - insert:
     - id: remote-web-ui
       name: '@linxin666/dsh-remote-web-ui'
       config:
         autoTunnel: false
-        publicBaseUrl: https://your-tunnel-name.trycloudflare.com
+        publicBaseUrl: !!js process.env.DSH_REMOTE_PUBLIC_URL ??
+          'https://example.trycloudflare.com'
+
+# The welcome notice version is per-installation UI state: it records which
+# notice this host has already shown. Omit the row entirely to let the plugin
+# use its default.
+# - id: ui-settings-general
+#   name: "@deepseek-ai/dsh-client-ui-settings-general"
+#   config:
+#     welcomeNoticeVersion: 2026-09-28.1
