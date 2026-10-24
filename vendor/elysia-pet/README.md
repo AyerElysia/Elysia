@@ -208,19 +208,37 @@ node test/run.mjs     # 217 项断言
 
 ### 开屏支持
 
-要让启动页也显示爱莉，需要给宿主打一个小补丁（把两处硬编码改成查注册表）：
+宿主的启动页把吉祥物皮肤写死在 `SplashMascot.js` 里（白名单只有 `deepy`/`whaleGirl`，分发改成三元表达式），插件皮肤进不去。让启动页也显示爱莉需要给宿主打补丁：
+
+| 补丁 | 文件 | 作用 |
+|---|---|---|
+| A | `lib/types/components/sidePanel/companion/SplashMascot.js` | 白名单与分发改查 `resolveCompanionSkin` 注册表 |
+| B | `lib/types/dsh-adapter/plugin.js` | 在 `buildTree()` 之前预注册皮肤，让首帧就画对 |
+
+补丁 B 是必要的：`dst` 的启动链是 `bin/dsh-tui.js → startEntrySession → apply() 内部 render() 画首帧 → root.compose() 才加载插件行`。首帧读到的 `companionSkinStore` 还是默认值，所以不打补丁会先画约一秒的鲸鱼，等插件补齐后才切过去。
+
+**Windows**：
 
 ```powershell
-pwsh -File patch-splash-mascot.ps1 -Check     # 看状态
-pwsh -File patch-splash-mascot.ps1            # 打补丁（幂等）
-pwsh -File patch-splash-mascot.ps1 -Restore   # 还原
+pwsh -File patch-dsh-tui-host.ps1 -Check     # 看状态
+pwsh -File patch-dsh-tui-host.ps1            # 打补丁（幂等）
+pwsh -File patch-dsh-tui-host.ps1 -Restore   # 还原
 ```
 
-**不打也能用** —— 只是启动页显示原来的鲸鱼。
+**Linux / macOS**：
 
-**dsh-tui 升级后必须重打。** 升级会覆盖 `node_modules`，补丁失效；同时补丁脚本会自动识别「备份对应旧版宿主」并重新备份，避免 `-Restore` 把新版文件覆盖成旧版。
+```sh
+bash patch-dsh-tui-host.sh                                            # 自动探测包根
+bash patch-dsh-tui-host.sh /path/to/@deepseek-harness-tui/dsh-tui    # 显式指定
+```
 
-已验证的宿主版本：0.15.x、**0.16.1**。
+补丁块放在 `plugin-patch-block.js`，由脚本插进宿主。`host-entry-patch.js` 是早期版本（插在 `host-entry.js` 的 `apply()` 之前），首帧仍会闪一下，保留仅作参考。
+
+**不打也能用** —— 侧栏宠物正常显示，只是启动页画原来的鲸鱼。
+
+**dsh-tui 升级后必须重打。** 升级会覆盖 `node_modules`，两个补丁都会失效。脚本按字符串锚点定位，宿主改了实现会明确报「找不到锚点」而不是写坏文件。
+
+已验证的宿主版本：0.15.x（仅补丁 A 生效）、**0.16.1**（A + B）。
 
 ## 许可
 
