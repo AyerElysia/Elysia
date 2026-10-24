@@ -86,3 +86,12 @@ vendor/*/node_modules/
 *.bak
 tmp/
 .DS_Store
+
+# ── Runtime state the surfaces create for themselves ────────────────────────
+# Codex / Claude backends, agent presets, and the per-profile node_modules
+# symlink. None of it is reproducible from the repository; all of it is written
+# by a run.
+homes/*/.codex/
+homes/*/.claude/
+homes/*/.agent-presets/
+homes/*/profiles/*/node_modules
