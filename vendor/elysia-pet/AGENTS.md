@@ -116,18 +116,18 @@ node scripts/build-frames.mjs <源目录>     # 重建素材
 
 ## dsh-tui 升级后检查清单
 
-升级会覆盖 `node_modules`，以下都要复查一遍：
+升级会覆盖 `node_modules`，两处补丁都会失效。
 
-1. **开屏补丁失效** —— 运行 `pwsh -File patch-splash-mascot.ps1 -Check`，未打则重打。
-2. **补丁脚本自身可能过期** —— 它按字符串匹配宿主代码。0.16.1 就给 `import` 加了 `loadWhaleGirlImageKit`，导致旧脚本的精确匹配静默失效（只剩分发处引用该符号却没导入 → ReferenceError）。所以脚本已改为「定位 import 行 + 判断 + 插入」，不再依赖精确字符串。若宿主改动更大，仍需人工检查。
-3. **备份世代** —— 脚本会检测备份是否对应旧版（按文件长度粗判），是则自动更新，防止 `-Restore` 把新版覆盖成旧版。
-4. **关键 API 仍在** —— `registerCompanionSkin` / `resolveCompanionSkin` / `renderSpriteRows` / `DEEPY_SEMANTIC_ANIMATION` / `deriveCompanionContext` / `notificationReactionKind` / `channel.activeToolCount` / `subagents`。跑 `node test/run.mjs` 能覆盖大部分。
-5. **跑真实启动**，确认无 warn。
+1. **重打补丁**：`pwsh -File patch-dsh-tui-host.ps1`（幂等）
+2. **确认真实启动链**：`dst` 执行的是 `bin/dsh-tui.js -> host-entry.js`。
+   若改用 `dsh --profile`（独立的编译版 CLI），那是另一条路径，本补丁不覆盖。
+3. **补丁锚点仍在**：补丁 B 定位 `await apply(ctx, config, ctx, {...})`，
+   补丁 A 定位 `SplashMascot.js` 的白名单与分发两处。宿主改实现时脚本会报「找不到锚点」。
+4. **跑测试**：`node test/run.mjs`
 
 ```powershell
-pwsh -File patch-splash-mascot.ps1 -Check
+pwsh -File patch-dsh-tui-host.ps1 -Check
 node test/run.mjs
-& 'E:\dsh-profiles\_core\node_modules\.bin\dsh.cmd' --profile dsh-tui --dump-config
 ```
 
 ## 禁止事项

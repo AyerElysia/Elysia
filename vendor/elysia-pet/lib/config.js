@@ -74,8 +74,34 @@ export function resolveConfig(raw) {
      * 关掉则固定用第一个。
      */
     celebrationVariants: v.celebrationVariants !== false,
-    /** 启动时自动切到爱莉（false = 只加入列表，由用户在设置里选）。 */
-    activateOnLoad: v.activateOnLoad === true,
+    /**
+     * 启动时自动切到本皮肤（默认 **true**）。
+     *
+     * ## 为什么默认开
+     *
+     * 宿主的 skin 存储（companionSkinStore）在 settings.json 里没有该键时回落
+     * `DEFAULT_COMPANION_SKIN = 'deepy'`。而 `applyCompanionSkin` 会过
+     * `normalizeCompanionSkin` 的白名单（COMPANION_SKIN_IDS），**不在白名单就
+     * 静默回落**。插件皮肤的 id 只有在本插件 `apply()` 跑过之后才进白名单。
+     *
+     * 于是存在两种时序：
+     *
+     *   插件在 dsh-tui 之前加载（本仓库推荐，见 README「加载顺序」）：
+     *     apply() 时白名单已补齐 → dsh-tui 随后 applyCompanionSkin('elysia')
+     *     直接生效 → **首帧就是本皮肤**。
+     *
+     *   插件在 dsh-tui 之后加载（旧顺序）：
+     *     dsh-tui 先 applyCompanionSkin('elysia') 时白名单还没有该 id
+     *     → 回落 deepy（画出内置宠物）→ 插件 apply() 补白名单并再激活
+     *     → 画面从内置宠物切到本皮肤，**能看到一次闪烁**。
+     *
+     * 默认 true 让第二种时序也自愈（不至于要用户手动去 /settings 选一次）；
+     * 同时按第一种时序部署时它不产生任何额外动作（值已是目标 id，
+     * `apply` 内部判断相等则不通知）。
+     *
+     * 设为 false 则只注册、不激活 —— 适合想保留用户自己在设置里选择的场景。
+     */
+    activateOnLoad: v.activateOnLoad !== false,
     /**
      * 图像轨的放大倍率上限。源 PNG 是 320x320（= 网格 32 × 每格 10px），
      * 宿主的图像源上限是边长 1024 / 4MiB，所以实际最大 3 倍；解码器会再按

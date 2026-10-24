@@ -206,39 +206,59 @@ node test/run.mjs     # 217 项断言
 - **依靠宿主内部路径**：`registerCompanionSkin` 住在 `lib/types/components/sidePanel/companion/skins.js`，而 dsh-tui 的 `package.json exports` **没有暴露这个子路径**。本插件靠「找宿主包根 → 拼内部路径 → 动态 import」访问。宿主改目录结构会失效（已做软失败：只 warn，不影响 boot）。
 - **开屏吉祥物需要打补丁**：宿主的 `SplashMascot.js` 里白名单写死 `'deepy' || 'whaleGirl'`，插件皮肤进不去。见下方「开屏支持」。
 
-### 开屏支持
+### 宿主补丁（消除启动时的内置宠物闪烁）
 
-宿主的启动页把吉祥物皮肤写死在 `SplashMascot.js` 里（白名单只有 `deepy`/`whaleGirl`，分发改成三元表达式），插件皮肤进不去。让启动页也显示爱莉需要给宿主打补丁：
+插件在架构上**没有首帧之前的执行机会**：`dst` 的启动链是
+
+```
+bin/dsh-tui.js
+  -> startEntrySession(host-entry.js)
+       -> apply() 内部 render() 画首帧
+       -> root.compose() 才加载插件行
+```
+
+而 `CompanionPanel` / `LogoV2` 首帧读 `companionSkinStore`，初值恒为 `deepy`，
+`COMPANION_SKIN_IDS` 与 `skins` Map 也只有三个内置皮肤。所以首帧必然画内置宠物，
+等插件 `apply()` 补齐后再切过去 —— 表现为启动时约 1 秒的鲸鱼。
+
+要给彻底消除，需要给宿主打两处补丁：
 
 | 补丁 | 文件 | 作用 |
 |---|---|---|
-| A | `lib/types/components/sidePanel/companion/SplashMascot.js` | 白名单与分发改查 `resolveCompanionSkin` 注册表 |
-| B | `lib/types/dsh-adapter/plugin.js` | 在 `buildTree()` 之前预注册皮肤，让首帧就画对 |
+| A | `SplashMascot.js` | 启动页吉祥物白名单改为查 `resolveCompanionSkin` 注册表 |
+| B | `plugin.js` | 在 `buildTree()` 之前预注册皮肤：读 profile 的 `companion.skin`，自己构造皮肤对象并注册进本实例，再写 store |
 
-补丁 B 是必要的：`dst` 的启动链是 `bin/dsh-tui.js → startEntrySession → apply() 内部 render() 画首帧 → root.compose() 才加载插件行`。首帧读到的 `companionSkinStore` 还是默认值，所以不打补丁会先画约一秒的鲸鱼，等插件补齐后才切过去。
+**补丁 B 的位置很关键**：必须在 `plugin.js` 的 `buildTree()` 之前。插在 `host-entry.js` 的
+`apply()` 之前（早期版本的做法）仍然太晚——`apply()` 内部立刻调 `render(tree)` 画首帧，
+那时补丁还没生效，会闪一帧内置宠物。补丁块里的注释记着这段推导。
 
-**Windows**：
+**跨平台脚本**：
 
 ```powershell
-pwsh -File patch-dsh-tui-host.ps1 -Check     # 看状态
-pwsh -File patch-dsh-tui-host.ps1            # 打补丁（幂等）
-pwsh -File patch-dsh-tui-host.ps1 -Restore   # 还原
+# Windows
+pwsh -File patch-dsh-tui-host.ps1 -Check          # 看状态
+pwsh -File patch-dsh-tui-host.ps1                 # 打补丁（幂等）
+pwsh -File patch-dsh-tui-host.ps1 -Restore        # 还原
+pwsh -File patch-dsh-tui-host.ps1 -Root <包根>    # 指定 dsh-tui 包根
 ```
-
-**Linux / macOS**：
 
 ```sh
-bash patch-dsh-tui-host.sh                                            # 自动探测包根
-bash patch-dsh-tui-host.sh /path/to/@deepseek-harness-tui/dsh-tui    # 显式指定
+# Linux / macOS
+bash patch-dsh-tui-host.sh                                  # 自动探测包根
+bash patch-dsh-tui-host.sh /path/to/@deepseek-harness-tui/dsh-tui
 ```
 
-补丁块放在 `plugin-patch-block.js`，由脚本插进宿主。`host-entry-patch.js` 是早期版本（插在 `host-entry.js` 的 `apply()` 之前），首帧仍会闪一下，保留仅作参考。
+两个脚本共用同一份补丁块 `plugin-patch-block.js`。
 
-**不打也能用** —— 侧栏宠物正常显示，只是启动页画原来的鲸鱼。
+**补丁 B 为什么要自己构造皮肤对象**：不能 import 插件再调它的 `apply()` —— 插件内部用
+`resolveHostRoot()` 从 `process.argv[1]` 向上找宿主包，找到的往往是另一个路径，
+会 `import` 出**第二份** `tuiDisplayPrefs.js` / `skins.js`，白名单不共享，补丁无效。
 
-**dsh-tui 升级后必须重打。** 升级会覆盖 `node_modules`，两个补丁都会失效。脚本按字符串锚点定位，宿主改了实现会明确报「找不到锚点」而不是写坏文件。
+**不打也能用** —— 只是启动时会先看到约 1 秒的内置宠物再切换。
 
-已验证的宿主版本：0.15.x（仅补丁 A 生效）、**0.16.1**（A + B）。
+**dsh-tui 升级后必须重打**（升级会覆盖 `node_modules`）。脚本会校验备份是否对应当前版本。
+
+已验证版本：0.15.x（仅补丁 A 生效）、**0.16.1**（A + B）。
 
 ## 许可
 
